@@ -1,6 +1,8 @@
-export const useData = (): any => {
+import type { Olympic } from "../models/olympic.model";
+
+export const useData = (): Olympic[] => {
   // Typage strict avec l'interface Olympic, adieu le "any" !
-  const olympicsData: any = [
+  const olympicsData: Olympic[] = [
     {
       id: 1,
       country: 'États-Unis',

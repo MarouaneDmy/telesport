@@ -13,6 +13,7 @@ import {
 } from 'chart.js'
 import { Pie, Line } from 'react-chartjs-2'
 import { useData } from './hooks/useData'
+import type { Olympic, Participation } from './models/olympic.model'
 
 ChartJS.register(
   ArcElement,
@@ -28,7 +29,7 @@ ChartJS.register(
 // Anti-pattern 2 — Composant incohérent avec le nom du fichier (ex. Home dans App.tsx).
 const Home: FC = () => {
   const olympicData = useData()
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<Olympic[]>([])
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,7 +40,7 @@ const Home: FC = () => {
   // Anti-pattern 6 — Logique métier complexe directement dans le composant
   const calculateTotalMedals = (country: any) => {
     return country.participations.reduce(
-      (sum: any, p: any) => sum + p.medalsCount,
+      (sum: any, p: Participation) => sum + p.medalsCount,
       0,
     )
   }
@@ -150,22 +151,22 @@ const Country: FC = () => {
   console.log('Country loaded:', country)
 
   const totalMedals = country.participations.reduce(
-    (sum: any, p: any) => sum + p.medalsCount,
+    (sum: any, p: Participation) => sum + p.medalsCount,
     0,
   )
   const totalAthletes = country.participations.reduce(
-    (sum: any, p: any) => sum + p.athleteCount,
+    (sum: any, p: Participation) => sum + p.athleteCount,
     0,
   )
   const totalParticipations = country.participations.length
 
   // Anti-pattern 10 — Préparation des données du graphique dans le composant — extraire dans une fonction ou un hook pour séparer UI et logique. https://react.dev/learn/thinking-in-react
   const evolutionData = {
-    labels: country.participations.map((p: any) => p.year.toString()),
+    labels: country.participations.map((p: Participation) => p.year.toString()),
     datasets: [
       {
         label: 'Nombre de médailles',
-        data: country.participations.map((p: any) => p.medalsCount),
+        data: country.participations.map((p: Participation) => p.medalsCount),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         tension: 0.3,
