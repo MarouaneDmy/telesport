@@ -1,11 +1,11 @@
-import type { Olympic } from "../models/olympic.model";
+import type { Country } from "../models/olympic.model";
 
-export const useData = (): Olympic[] => {
+export const useData = (): Country[] => {
   // Typage strict avec l'interface Olympic, adieu le "any" !
-  const olympicsData: Olympic[] = [
+  const olympicsData: Country[] = [
     {
       id: 1,
-      country: 'États-Unis',
+      name: 'États-Unis',
       participations: [
         { id: 1, year: 2020, city: 'Tokyo', medalsCount: 113, athleteCount: 613 },
         { id: 2, year: 2016, city: 'Rio', medalsCount: 121, athleteCount: 555 },
@@ -16,7 +16,7 @@ export const useData = (): Olympic[] => {
     },
     {
       id: 2,
-      country: 'Chine',
+      name: 'Chine',
       participations: [
         { id: 6, year: 2020, city: 'Tokyo', medalsCount: 88, athleteCount: 431 },
         { id: 7, year: 2016, city: 'Rio', medalsCount: 70, athleteCount: 413 },
@@ -27,7 +27,7 @@ export const useData = (): Olympic[] => {
     },
     {
       id: 3,
-      country: 'Japon',
+      name: 'Japon',
       participations: [
         { id: 11, year: 2020, city: 'Tokyo', medalsCount: 58, athleteCount: 582 },
         { id: 12, year: 2016, city: 'Rio', medalsCount: 41, athleteCount: 338 },
@@ -38,7 +38,7 @@ export const useData = (): Olympic[] => {
     },
     {
       id: 4,
-      country: 'Grande-Bretagne',
+      name: 'Grande-Bretagne',
       participations: [
         { id: 16, year: 2020, city: 'Tokyo', medalsCount: 65, athleteCount: 376 },
         { id: 17, year: 2016, city: 'Rio', medalsCount: 67, athleteCount: 366 },
@@ -49,7 +49,7 @@ export const useData = (): Olympic[] => {
     },
     {
       id: 5,
-      country: 'France',
+      name: 'France',
       participations: [
         { id: 21, year: 2020, city: 'Tokyo', medalsCount: 33, athleteCount: 378 },
         { id: 22, year: 2016, city: 'Rio', medalsCount: 42, athleteCount: 401 },

@@ -13,7 +13,7 @@ import {
 } from 'chart.js'
 import { Pie, Line } from 'react-chartjs-2'
 import { useData } from './hooks/useData'
-import type { Olympic, Participation } from './models/olympic.model'
+import type { Country, Participation } from './models/olympic.model'
 
 ChartJS.register(
   ArcElement,
@@ -29,7 +29,9 @@ ChartJS.register(
 // Anti-pattern 2 — Composant incohérent avec le nom du fichier (ex. Home dans App.tsx).
 const Home: FC = () => {
   const olympicData = useData()
-  const [data, setData] = useState<Olympic[]>([])
+  const [data, setData] = useState<Country[]>([])
+
+  console.log(data)
 
   useEffect(() => {
     setTimeout(() => {
@@ -38,7 +40,7 @@ const Home: FC = () => {
   }, [olympicData])
 
   // Anti-pattern 6 — Logique métier complexe directement dans le composant
-  const calculateTotalMedals = (country: any) => {
+  const calculateTotalMedals = (country: Country) => {
     return country.participations.reduce(
       (sum: any, p: Participation) => sum + p.medalsCount,
       0,
