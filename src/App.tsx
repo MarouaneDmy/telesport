@@ -42,7 +42,7 @@ const Home: FC = () => {
   // Anti-pattern 6 — Logique métier complexe directement dans le composant
   const calculateTotalMedals = (country: Country) => {
     return country.participations.reduce(
-      (sum: any, p: Participation) => sum + p.medalsCount,
+      (sum: number, p: Participation) => sum + p.medalsCount,
       0,
     )
   }
@@ -56,11 +56,11 @@ const Home: FC = () => {
   }
 
   const chartData = {
-    labels: data.map((d: any) => d.name),
+    labels: data.map((country: Country) => country.name),
     datasets: [
       {
         label: 'Total des médailles',
-        data: data.map((d: any) => calculateTotalMedals(d)),
+        data: data.map((country: Country) => calculateTotalMedals(country)),
         backgroundColor: [
           'rgba(255, 99, 132, 0.6)',
           'rgba(54, 162, 235, 0.6)',
@@ -147,17 +147,17 @@ const Country: FC = () => {
   // Anti-pattern 5 — console.log à retirer.
   console.log('Loading country with id:', id)
   // Anti-pattern 3 — Utilisation de `any` pour l'état ne permettant pas de bénéficier de TypeScript.
-  const country: any = olympicsData.find((c: any) => c.id === Number(id))
+  const country: Country = olympicsData.find((c: Country) => c.id === Number(id))
 
   // Anti-pattern 5 — console.log à retirer.
   console.log('Country loaded:', country)
 
   const totalMedals = country.participations.reduce(
-    (sum: any, p: Participation) => sum + p.medalsCount,
+    (sum: number, p: Participation) => sum + p.medalsCount,
     0,
   )
   const totalAthletes = country.participations.reduce(
-    (sum: any, p: Participation) => sum + p.athleteCount,
+    (sum: number, p: Participation) => sum + p.athleteCount,
     0,
   )
   const totalParticipations = country.participations.length
