@@ -14,6 +14,7 @@ import {
 import { Pie, Line } from 'react-chartjs-2'
 import { useData } from './hooks/useData'
 import type { Country, Participation } from './models/olympic.model'
+import Header from './components/Header'
 
 ChartJS.register(
   ArcElement,
@@ -96,9 +97,7 @@ const Home: FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">
-          Historique des Jeux Olympiques - TéléSport
-        </h1>
+        <Header children="Historique des Jeux Olympiques - TéléSport"/>
 
         <div className="mb-8">
           <p className="text-lg">
@@ -210,7 +209,7 @@ const Country: FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">{country.name}</h1>
+        <Header children={country.name}/>
 
         {/* Anti-pattern 8 — Cartes dupliquées avec Home — extraire en composant réutilisable (Indicator.tsx). */}
         <div className="mb-2">
