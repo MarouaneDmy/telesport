@@ -1,8 +1,8 @@
-import type { Country } from "../models/olympic.model";
+import type { ICountryDto } from "../models/olympic.model";
 
-export const useData = (): Country[] => {
+export const useData = (): ICountryDto[] => {
   // Typage strict avec l'interface Olympic, adieu le "any" !
-  const olympicsData: Country[] = [
+  const olympicsData: ICountryDto[] = [
     {
       id: 1,
       name: 'États-Unis',
