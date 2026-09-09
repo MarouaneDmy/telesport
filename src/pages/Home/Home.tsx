@@ -1,15 +1,24 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import Header from "../../components/Header";
 import type { ICountryDto, Participation } from "../../models/olympic.model";
 import { useData } from "../../hooks/useData";
-import { Pie } from "react-chartjs-2";
+import { getElementsAtEvent, Pie } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
+import type { Chart } from "chart.js";
 
 const Home: FC = () => {
-  const olympicData = useData()
+  const navigate = useNavigate();
+  const olympicData = useData();
   const [data, setData] = useState<ICountryDto[]>([])
+  const chartRef = useRef<Chart<'pie'>>(null);
 
-  console.log(data)
-
+  const handleRedirect = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!chartRef.current) return;
+    
+    const index = getElementsAtEvent(chartRef.current, event)[0].index
+    navigate(`/country/${data[index].id}`)
+  }
+  
   useEffect(() => {
     setTimeout(() => {
       setData(olympicData)
@@ -100,7 +109,7 @@ const Home: FC = () => {
 
         <div className="bg-gray-800 p-8 rounded-lg shadow-xl">
           <div style={{ height: '400px' }}>
-            <Pie data={chartData} options={chartOptions} />
+            <Pie ref={chartRef} data={chartData} options={chartOptions} onClick={handleRedirect}/>
           </div>
         </div>
 
