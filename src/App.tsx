@@ -1,5 +1,5 @@
-import { type FC } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { type FC } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -10,9 +10,9 @@ import {
   BarElement,
   LineElement,
   PointElement,
-} from 'chart.js'
-import Home from './pages/Home/Home'
-import Country from './pages/Country/Country'
+} from "chart.js";
+import Home from "./pages/Home/Home";
+import CountryDetails from "./pages/CountryDetails/CountryDetails";
 
 ChartJS.register(
   ArcElement,
@@ -23,19 +23,16 @@ ChartJS.register(
   BarElement,
   LineElement,
   PointElement,
-)
+);
 
 // Anti-pattern 11 — Routing dans App.tsx — idéalement : module dédié.
 export const App: FC = () => {
-  // Anti-pattern 5 — console.log à retirer.
-  console.log('App rendered')
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/country/:id" element={<Country />} />
+        <Route path="/country/:id" element={<CountryDetails />} />
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};

@@ -1,8 +1,6 @@
 // src/hooks/useData.ts
 import type { Country } from "../models/olympic.model";
 
-// 1. Les données sont déclarées EN DEHORS du hook.
-// Leur référence en mémoire est stable à 100%, pas besoin de useMemo.
 const data: Country[] = [
   {
     id: 1,
@@ -121,7 +119,6 @@ const data: Country[] = [
   },
 ];
 
-// 2. Le hook ne fait que retourner la constante. Zéro logique React.
 export const useData = (): Country[] => {
   return data;
 };

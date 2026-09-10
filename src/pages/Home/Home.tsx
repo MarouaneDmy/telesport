@@ -1,11 +1,12 @@
 import { useRef, type FC } from "react";
 import Header from "../../components/Header";
-import type { Country, Participation } from "../../models/olympic.model";
+import type { Country } from "../../models/olympic.model";
 import { useData } from "../../hooks/useData";
 import { getElementsAtEvent, Pie } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import type { Chart } from "chart.js";
 import Indicator from "../../components/Indicator";
+import { calculateTotalMedals } from "../../utils/OlympicStats";
 
 const Home: FC = () => {
   const navigate = useNavigate();
@@ -17,14 +18,6 @@ const Home: FC = () => {
 
     const index = getElementsAtEvent(chartRef.current, event)[0].index;
     navigate(`/country/${data[index].id}`);
-  };
-
-  // Anti-pattern 6 — Logique métier complexe directement dans le composant
-  const calculateTotalMedals = (country: Country) => {
-    return country.participations.reduce(
-      (sum: number, p: Participation) => sum + p.medalsCount,
-      0,
-    );
   };
 
   const totalParticipatingCountries = data ? data.length : 0;
