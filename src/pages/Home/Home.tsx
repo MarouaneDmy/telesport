@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FC } from "react";
+import { useRef, type FC } from "react";
 import Header from "../../components/Header";
 import type { ICountryDto, Participation } from "../../models/olympic.model";
 import { useData } from "../../hooks/useData";
@@ -9,8 +9,7 @@ import Indicator from "../../components/Indicator";
 
 const Home: FC = () => {
   const navigate = useNavigate();
-  const olympicData = useData();
-  const [data, setData] = useState<ICountryDto[]>([]);
+  const data = useData();
   const chartRef = useRef<Chart<"pie">>(null);
 
   const handleRedirect = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -19,12 +18,6 @@ const Home: FC = () => {
     const index = getElementsAtEvent(chartRef.current, event)[0].index;
     navigate(`/country/${data[index].id}`);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setData(olympicData);
-    }, 500);
-  }, [olympicData]);
 
   // Anti-pattern 6 — Logique métier complexe directement dans le composant
   const calculateTotalMedals = (country: ICountryDto) => {
