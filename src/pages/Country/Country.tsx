@@ -2,17 +2,17 @@ import type { FC } from "react";
 import Header from "../../components/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData";
-import type { ICountryDto, Participation } from "../../models/olympic.model";
+import type { Country, Participation } from "../../models/olympic.model";
 import { Line } from "react-chartjs-2";
 import Indicator from "../../components/Indicator";
 
-const Country: FC = () => {
+const CountryDetails: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const olympicsData = useData();
 
-  const country: ICountryDto = olympicsData.find(
-    (c: ICountryDto) => c.id === Number(id),
+  const country: Country = olympicsData.find(
+    (c: Country) => c.id === Number(id),
   );
 
   if (!country) {
@@ -128,4 +128,4 @@ const Country: FC = () => {
   );
 };
 
-export default Country;
+export default CountryDetails;

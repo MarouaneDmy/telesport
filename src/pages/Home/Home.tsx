@@ -1,6 +1,6 @@
 import { useRef, type FC } from "react";
 import Header from "../../components/Header";
-import type { ICountryDto, Participation } from "../../models/olympic.model";
+import type { Country, Participation } from "../../models/olympic.model";
 import { useData } from "../../hooks/useData";
 import { getElementsAtEvent, Pie } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const Home: FC = () => {
   };
 
   // Anti-pattern 6 — Logique métier complexe directement dans le composant
-  const calculateTotalMedals = (country: ICountryDto) => {
+  const calculateTotalMedals = (country: Country) => {
     return country.participations.reduce(
       (sum: number, p: Participation) => sum + p.medalsCount,
       0,
@@ -36,11 +36,11 @@ const Home: FC = () => {
   }
 
   const chartData = {
-    labels: data.map((country: ICountryDto) => country.name),
+    labels: data.map((country: Country) => country.name),
     datasets: [
       {
         label: "Total des médailles",
-        data: data.map((country: ICountryDto) => calculateTotalMedals(country)),
+        data: data.map((country: Country) => calculateTotalMedals(country)),
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",

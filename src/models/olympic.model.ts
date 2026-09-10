@@ -6,7 +6,7 @@ export interface Participation {
   athleteCount: number;
 }
 
-export interface ICountryDto {
+export interface Country {
   id: number;
   name: string;
   participations: Participation[];
