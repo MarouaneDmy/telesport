@@ -23,11 +23,6 @@ const Home: FC = () => {
   const totalParticipatingCountries = data ? data.length : 0;
   const totalGamesEditions = 5;
 
-  // Anti-pattern 7 — État de chargement dérivé des données au lieu d'un état dédié (loading/error).
-  if (!data) {
-    return <div>Chargement...</div>;
-  }
-
   const chartData = {
     labels: data.map((country: Country) => country.name),
     datasets: [
