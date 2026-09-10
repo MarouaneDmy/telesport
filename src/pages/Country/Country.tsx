@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import Header from "../../components/Header";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData";
 import type { ICountryDto, Participation } from "../../models/olympic.model";
 import { Line } from "react-chartjs-2";
@@ -8,6 +8,7 @@ import Indicator from "../../components/Indicator";
 
 const Country: FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const olympicsData = useData();
 
   // Anti-pattern 5 — console.log à retirer.
@@ -16,6 +17,20 @@ const Country: FC = () => {
   const country: ICountryDto = olympicsData.find(
     (c: ICountryDto) => c.id === Number(id),
   );
+
+  if (!country) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-bold mb-4">Pays introuvable :(</h2>
+        <button
+          onClick={() => navigate("/")}
+          className="text-blue-400 hover:underline cursor-pointer"
+        >
+          Retourner à l'accueil
+        </button>
+      </div>
+    );
+  }
 
   // Anti-pattern 5 — console.log à retirer.
   console.log("Country loaded:", country);
@@ -78,6 +93,13 @@ const Country: FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="max-w-6xl mx-auto">
+        <button
+          onClick={() => navigate("/")}
+          className="text-gray-400 hover:text-white cursor-pointer mb-3"
+        >
+          Retour
+        </button>
+
         <Header>{country.name}</Header>
 
         {/* Anti-pattern 8 — Cartes dupliquées avec Home — extraire en composant réutilisable (Indicator.tsx). */}
