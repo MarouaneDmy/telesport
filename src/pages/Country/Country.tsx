@@ -11,9 +11,6 @@ const Country: FC = () => {
   const navigate = useNavigate();
   const olympicsData = useData();
 
-  // Anti-pattern 5 — console.log à retirer.
-  console.log("Loading country with id:", id);
-  // Anti-pattern 3 — Utilisation de `any` pour l'état ne permettant pas de bénéficier de TypeScript.
   const country: ICountryDto = olympicsData.find(
     (c: ICountryDto) => c.id === Number(id),
   );
@@ -31,9 +28,6 @@ const Country: FC = () => {
       </div>
     );
   }
-
-  // Anti-pattern 5 — console.log à retirer.
-  console.log("Country loaded:", country);
 
   const totalMedals = country.participations.reduce(
     (sum: number, p: Participation) => sum + p.medalsCount,
@@ -102,7 +96,6 @@ const Country: FC = () => {
 
         <Header>{country.name}</Header>
 
-        {/* Anti-pattern 8 — Cartes dupliquées avec Home — extraire en composant réutilisable (Indicator.tsx). */}
         <div className="mb-2">
           <Indicator
             title="Participations"

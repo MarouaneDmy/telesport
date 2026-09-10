@@ -92,7 +92,6 @@ const Home: FC = () => {
           </p>
         </div>
 
-        {/* Anti-pattern 8 — Cartes dupliquées — extraire en composant réutilisable (Indicator.tsx). */}
         <div className="mb-2">
           <Indicator
             title="Pays participants"
