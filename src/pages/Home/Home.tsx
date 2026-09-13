@@ -9,6 +9,7 @@ import Indicator from "../../components/Indicator";
 import { calculateTotalMedals } from "../../utils/OlympicStats";
 import Loader from "../../components/Loader";
 import ErrorMessage from "../../components/ErrorMessage";
+import Footer from "../../components/Footer";
 
 const Home: FC = () => {
   const navigate = useNavigate();
@@ -108,9 +109,9 @@ const Home: FC = () => {
           </div>
         </div>
 
-        <div className="text-sm text-gray-400">
+        <Footer>
           <p>Cliquez sur un pays pour voir ses détails</p>
-        </div>
+        </Footer>
       </div>
     </div>
   );

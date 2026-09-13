@@ -11,6 +11,7 @@ import {
   calculateTotalMedals,
   getCountryEvolutionData,
 } from "../../utils/OlympicStats";
+import Footer from "../../components/Footer";
 
 const CountryDetails: FC = () => {
   const { id } = useParams();
@@ -120,9 +121,9 @@ const CountryDetails: FC = () => {
           </div>
         </div>
 
-        <div className="text-sm text-gray-400">
+        <Footer>
           <p>Données des 5 dernières éditions des Jeux Olympiques</p>
-        </div>
+        </Footer>
       </div>
     </div>
   );
