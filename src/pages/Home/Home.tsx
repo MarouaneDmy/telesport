@@ -1,7 +1,7 @@
 import { useRef, type FC } from "react";
 import Header from "../../components/Header";
 import type { Country } from "../../models/olympic.model";
-import { useData } from "../../hooks/useData";
+import { useGetOlympicsQuery } from "../../store/olympicApi";
 import { getElementsAtEvent, Pie } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import type { Chart } from "chart.js";
@@ -10,8 +10,14 @@ import { calculateTotalMedals } from "../../utils/OlympicStats";
 
 const Home: FC = () => {
   const navigate = useNavigate();
-  const data = useData();
+
+  const { data, isLoading } = useGetOlympicsQuery();
   const chartRef = useRef<Chart<"pie">>(null);
+
+  // Anti-pattern 7 — État de chargement dérivé des données au lieu d'un état dédié (loading/error).
+  if (isLoading) {
+    return <div>Chargement...</div>;
+  }
 
   const handleRedirect = (event: React.MouseEvent<HTMLCanvasElement>) => {
     if (!chartRef.current) return;

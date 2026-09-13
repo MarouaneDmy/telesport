@@ -1,7 +1,7 @@
 // src/hooks/useData.ts
 import type { Country } from "../models/olympic.model";
 
-const data: Country[] = [
+export const data: Country[] = [
   {
     id: 1,
     name: "États-Unis",
@@ -118,7 +118,3 @@ const data: Country[] = [
     ],
   },
 ];
-
-export const useData = (): Country[] => {
-  return data;
-};

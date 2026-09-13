@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import Header from "../../components/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import { useData } from "../../hooks/useData";
+import { data } from "../../hooks/useData";
 import type { Country, Participation } from "../../models/olympic.model";
 import { Line } from "react-chartjs-2";
 import Indicator from "../../components/Indicator";
@@ -9,10 +9,10 @@ import Indicator from "../../components/Indicator";
 const CountryDetails: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const olympicsData = useData();
+  const olympicsData = data;
 
   const country: Country = olympicsData.find(
-    (c: Country) => c.id === Number(id),
+    (country: Country) => country.id === Number(id),
   );
 
   if (!country) {
@@ -41,11 +41,15 @@ const CountryDetails: FC = () => {
 
   // Anti-pattern 10 — Préparation des données du graphique dans le composant — extraire dans une fonction ou un hook pour séparer UI et logique. https://react.dev/learn/thinking-in-react
   const evolutionData = {
-    labels: country.participations.map((p: Participation) => p.year.toString()),
+    labels: country.participations.map((participation: Participation) =>
+      participation.year.toString(),
+    ),
     datasets: [
       {
         label: "Nombre de médailles",
-        data: country.participations.map((p: Participation) => p.medalsCount),
+        data: country.participations.map(
+          (participation: Participation) => participation.medalsCount,
+        ),
         borderColor: "rgb(75, 192, 192)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.3,
