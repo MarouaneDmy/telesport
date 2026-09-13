@@ -1,19 +1,28 @@
 import type { FC } from "react";
 import Header from "../../components/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import { data } from "../../hooks/useData";
 import type { Country, Participation } from "../../models/olympic.model";
 import { Line } from "react-chartjs-2";
 import Indicator from "../../components/Indicator";
+import { useGetOlympicsQuery } from "../../store/olympicApi";
+import Loader from "../../components/Loader";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const CountryDetails: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const olympicsData = data;
 
-  const country: Country = olympicsData.find(
-    (country: Country) => country.id === Number(id),
-  );
+  const { data, isLoading, error, refetch } = useGetOlympicsQuery();
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error || !data) {
+    return <ErrorMessage retry={refetch} />;
+  }
+
+  const country = data.find((country: Country) => country.id === Number(id));
 
   if (!country) {
     return (
