@@ -7,6 +7,7 @@ import Indicator from "../../components/Indicator";
 import { useGetOlympicsQuery } from "../../store/olympicApi";
 import Loader from "../../components/Loader";
 import ErrorMessage from "../../components/ErrorMessage";
+import { getCountryEvolutionData } from "../../utils/OlympicStats";
 
 const CountryDetails: FC = () => {
   const { id } = useParams();
@@ -39,32 +40,18 @@ const CountryDetails: FC = () => {
   }
 
   const totalMedals = country.participations.reduce(
-    (sum: number, p: Participation) => sum + p.medalsCount,
+    (sum: number, participation: Participation) =>
+      sum + participation.medalsCount,
     0,
   );
   const totalAthletes = country.participations.reduce(
-    (sum: number, p: Participation) => sum + p.athleteCount,
+    (sum: number, participation: Participation) =>
+      sum + participation.athleteCount,
     0,
   );
   const totalParticipations = country.participations.length;
 
-  // Anti-pattern 10 — Préparation des données du graphique dans le composant — extraire dans une fonction ou un hook pour séparer UI et logique. https://react.dev/learn/thinking-in-react
-  const evolutionData = {
-    labels: country.participations.map((participation: Participation) =>
-      participation.year.toString(),
-    ),
-    datasets: [
-      {
-        label: "Nombre de médailles",
-        data: country.participations.map(
-          (participation: Participation) => participation.medalsCount,
-        ),
-        borderColor: "rgb(75, 192, 192)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        tension: 0.3,
-      },
-    ],
-  };
+  const evolutionData = getCountryEvolutionData(country);
 
   const evolutionOptions = {
     responsive: true,
