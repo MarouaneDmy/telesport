@@ -7,16 +7,21 @@ import { useNavigate } from "react-router-dom";
 import type { Chart } from "chart.js";
 import Indicator from "../../components/Indicator";
 import { calculateTotalMedals } from "../../utils/OlympicStats";
+import Loader from "../../components/Loader";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Home: FC = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useGetOlympicsQuery();
+  const { data, isLoading, error, refetch } = useGetOlympicsQuery();
   const chartRef = useRef<Chart<"pie">>(null);
 
-  // Anti-pattern 7 — État de chargement dérivé des données au lieu d'un état dédié (loading/error).
   if (isLoading) {
-    return <div>Chargement...</div>;
+    return <Loader />;
+  }
+
+  if (error || !data) {
+    return <ErrorMessage retry={refetch} />;
   }
 
   const handleRedirect = (event: React.MouseEvent<HTMLCanvasElement>) => {
