@@ -7,7 +7,10 @@ import Indicator from "../../components/Indicator";
 import { useGetOlympicsQuery } from "../../store/olympicApi";
 import Loader from "../../components/Loader";
 import ErrorMessage from "../../components/ErrorMessage";
-import { getCountryEvolutionData } from "../../utils/OlympicStats";
+import {
+  calculateTotalMedals,
+  getCountryEvolutionData,
+} from "../../utils/OlympicStats";
 
 const CountryDetails: FC = () => {
   const { id } = useParams();
@@ -39,11 +42,8 @@ const CountryDetails: FC = () => {
     );
   }
 
-  const totalMedals = country.participations.reduce(
-    (sum: number, participation: Participation) =>
-      sum + participation.medalsCount,
-    0,
-  );
+  const totalMedals = calculateTotalMedals(country);
+
   const totalAthletes = country.participations.reduce(
     (sum: number, participation: Participation) =>
       sum + participation.athleteCount,
