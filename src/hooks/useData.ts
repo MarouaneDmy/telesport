@@ -49,29 +49,6 @@ export const data: Country[] = [
     ],
   },
   {
-    id: 3,
-    name: "Japon",
-    participations: [
-      { id: 11, year: 2020, city: "Tokyo", medalsCount: 58, athleteCount: 582 },
-      { id: 12, year: 2016, city: "Rio", medalsCount: 41, athleteCount: 338 },
-      {
-        id: 13,
-        year: 2012,
-        city: "Londres",
-        medalsCount: 38,
-        athleteCount: 293,
-      },
-      { id: 14, year: 2008, city: "Pékin", medalsCount: 25, athleteCount: 351 },
-      {
-        id: 15,
-        year: 2004,
-        city: "Athènes",
-        medalsCount: 37,
-        athleteCount: 312,
-      },
-    ],
-  },
-  {
     id: 4,
     name: "Grande-Bretagne",
     participations: [
@@ -91,6 +68,29 @@ export const data: Country[] = [
         city: "Athènes",
         medalsCount: 30,
         athleteCount: 264,
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "Japon",
+    participations: [
+      { id: 11, year: 2020, city: "Tokyo", medalsCount: 58, athleteCount: 582 },
+      { id: 12, year: 2016, city: "Rio", medalsCount: 41, athleteCount: 338 },
+      {
+        id: 13,
+        year: 2012,
+        city: "Londres",
+        medalsCount: 38,
+        athleteCount: 293,
+      },
+      { id: 14, year: 2008, city: "Pékin", medalsCount: 25, athleteCount: 351 },
+      {
+        id: 15,
+        year: 2004,
+        city: "Athènes",
+        medalsCount: 37,
+        athleteCount: 312,
       },
     ],
   },

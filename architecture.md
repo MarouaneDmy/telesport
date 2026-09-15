@@ -10,32 +10,39 @@ L'architecture présentée ici est le résultat de la refactorisation appliquée
 
 ## 1. Arborescence des dossiers
 
+```text
 src/
 ├── components/
-│ ├── ErrorMessage.tsx # Affichage d'erreur avec bouton de retry
-│ │── Loader.tsx # Spinner de chargement
-│ ├── Header.tsx # Titre de page réutilisable
-│ └── Indicator.tsx # Affichage des données
+│   ├── common/
+│   │   ├── ErrorMessage.tsx   # Affichage d'erreur avec bouton de retry
+│   │   └── Loader.tsx         # Spinner de chargement
+│   ├── Header.tsx             # Titre de page réutilisable
+│   └── Indicator.tsx          # Affichage des données
 │
 ├── hooks/
-│ └── useData.ts # Source de données mockées
+│   └── useData.ts             # Source de données brutes
 │
 ├── models/
-│ └── olympic.model.ts # Interfaces TypeScript (Country, Participation)
+│   └── olympic.model.ts       # Interfaces TypeScript (Country, Participation)
 │
 ├── pages/
-│ ├── Home.tsx # Dashboard principal
-│ └── CountryDetails.tsx # Fiche pays
+│   ├── Home.tsx               # Dashboard principal (Pie Chart)
+│   ├── CountryDetails.tsx     # Fiche pays (Line Chart)
+│   └── NotFound.tsx           # Page 404 avec retour à l'accueil
+│
+├── router/
+│   └── AppRouter.tsx          # Configuration centralisée des routes
 │
 ├── store/
-│ ├── olympicApi.ts # Service RTK Query
-│ └── store.ts # Configuration Redux Store
+│   ├── olympicApi.ts          # Service RTK Query
+│   └── store.ts               # Configuration du Redux Store
 │
-── utils/
-│ └── olympicStats.ts # Fonctions pures de logique métier
+├── utils/
+│   └── olympicStats.ts        # Fonctions pures de logique métier
 │
-├── App.tsx
-└── main.tsx # Point d'entrée + Provider Redux
+├── App.tsx                    # Composant racine + Enregistrement global Chart.js
+└── main.tsx                   # Point d'entrée + Providers (Redux)
+```
 
 ### Rôle de chaque dossier
 
@@ -47,6 +54,7 @@ src/
 | `pages/`      | Pages d'accueil et Country                     |
 | `store/`      | État global et service de fetching (RTK Query) |
 | `utils/`      | Fonctions pures de calcul                      |
+| `router/`     | Gestion des routes                             |
 
 ---
 
@@ -84,61 +92,23 @@ Pour résoudre les problèmes de données brutes et de `useEffect` mal gérés d
 
 Conformément aux contraintes du projet, ce fichier exporte la constante `data`. Il agit comme une base de données statique, strictement typée avec l'interface `Country[]`.
 
-````typescript
+```typescript
 export const data: Country[] = [
   {
     id: 1,
-    name: 'États-Unis',
-    participations: [ /* ... */ ],
+    name: "États-Unis",
+    participations: [
+      /* ... */
+    ],
   },
   // ... autres pays
 ];
+```
 
 ## 4. Préparation à une future connexion Back-end / API
 
-L'un des objectifs principaux de cette refactorisation était de rendre la transition vers une vraie API **triviale**. Grâce au découplage actuel, **aucun composant React** (`Home.tsx` ou `CountryDetails.tsx`) n'aura besoin d'être modifié le jour où le backend sera prêt.
+L'un des objectifs principaux de cette refactorisation était de rendre la transition vers une vraie API **facile**. Grâce au découplage actuel, **aucun composant React** (`Home.tsx` ou `CountryDetails.tsx`) n'aura besoin d'être modifié le jour où le backend sera prêt.
 
-### Procédure de migration
-
-Seul le fichier `src/store/olympicApi.ts` devra être adapté pour remplacer la simulation par un véritable appel HTTP :
-
-```typescript
-// AVANT (Simulation actuelle)
-export const olympicApi = createApi({
-  reducerPath: 'olympicApi',
-  baseQuery: fakeBaseQuery(),
-  endpoints: (builder) => ({
-    getOlympics: builder.query<Country[], void>({
-      queryFn: async () => {
-        await new Promise((r) => setTimeout(r, 800));
-        return { data: MOCK_DATA };
-      },
-    }),
-  }),
-});
-
-// APRÈS (Vraie API REST)
-import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export const olympicApi = createApi({
-  reducerPath: 'olympicApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.telesport.com/v1' }),
-  endpoints: (builder) => ({
-    getOlympics: builder.query<Country[], void>({
-      query: () => '/olympics',
-    }),
-  }),
-});
-````
-
-Une fois cette modification effectuée, le fichier `hooks/useData.ts` pourra être supprimé. Les composants continueront d'utiliser `useGetOlympicsQuery()` de manière totalement transparente, avec la même gestion native du cache, du chargement et des erreurs.
+Seul le fichier `src/store/olympicApi.ts` devra être adapté pour remplacer la simulation par un véritable appel HTTP, une fois cette modification effectuée, le fichier `hooks/useData.ts` pourra être supprimé. Les composants continueront d'utiliser `useGetOlympicsQuery()` de manière totalement transparente, avec la même gestion native du cache, du chargement et des erreurs.
 
 ---
-
-## 6. Technologies utilisées
-
-- **React 18** & **TypeScript** (Typage strict, zéro `any`)
-- **Redux Toolkit** & **RTK Query** (Gestion d'état serveur, cache, fetching)
-- **React Router DOM** (Navigation et routing)
-- **Chart.js** & **react-chartjs-2** (Visualisation de données)
-- **Tailwind CSS** (Styling utility-first et responsive)
