@@ -13,11 +13,11 @@ L'architecture présentée ici est le résultat de la refactorisation appliquée
 ```text
 src/
 ├── components/
-│   ├── common/
-│   │   ├── ErrorMessage.tsx   # Affichage d'erreur avec bouton de retry
-│   │   └── Loader.tsx         # Spinner de chargement
-│   ├── Header.tsx             # Titre de page réutilisable
-│   └── Indicator.tsx          # Affichage des données
+│   ├── ErrorMessage.tsx   # Affichage d'erreur avec bouton de retry
+│   ├── Loader.tsx         # Spinner de chargement
+|   ├── Footer.tsx         # Pied de page de l'application
+│   ├── Header.tsx         # Titre de page réutilisable
+│   └── Indicator.tsx      # Affichage des données
 │
 ├── hooks/
 │   └── useData.ts             # Source de données brutes
@@ -26,9 +26,12 @@ src/
 │   └── olympic.model.ts       # Interfaces TypeScript (Country, Participation)
 │
 ├── pages/
-│   ├── Home.tsx               # Dashboard principal (Pie Chart)
-│   ├── CountryDetails.tsx     # Fiche pays (Line Chart)
-│   └── NotFound.tsx           # Page 404 avec retour à l'accueil
+│   ├── Home/
+│   │   └── Home.tsx       # Dashboard principal (Pie Chart)
+│   ├── CountryDetails/
+│   │   └── CountryDetails.tsx  # Fiche pays (Line Chart)
+│   └── NotFound/
+│       └── NotFound.tsx   # Page 404 avec retour à l'accueil
 │
 ├── router/
 │   └── AppRouter.tsx          # Configuration centralisée des routes
@@ -72,6 +75,7 @@ Situés dans `src/components/`, ils reçoivent des données via des **props** et
 | `Header`       | Titre de page                  | `children` (le titre)     |
 | `Loader`       | État de chargement             | `message?`                |
 | `ErrorMessage` | État d'erreur avec retry       | `message?`, `onRetry?`    |
+| `Footer`       | Pied de page                   | `children` (le texte)     |
 
 ### Composants conteneurs
 
@@ -103,6 +107,27 @@ export const data: Country[] = [
   },
   // ... autres pays
 ];
+```
+
+#### Couche 2 : Le service de requêtage (`src/store/olympicApi.ts`)
+
+Nous utilisons **RTK Query** (Redux Toolkit Query) pour créer un véritable hook de gestion de données.
+
+```typescript
+export const olympicApi = createApi({
+  reducerPath: "olympicApi",
+  baseQuery: fakeBaseQuery(),
+  endpoints: (builder) => ({
+    getOlympics: builder.query<Country[], void>({
+      queryFn: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        return { data };
+      },
+    }),
+  }),
+});
+
+export const { useGetOlympicsQuery } = olympicApi;
 ```
 
 ## 4. Préparation à une future connexion Back-end / API
