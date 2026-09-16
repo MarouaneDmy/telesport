@@ -8,7 +8,7 @@ Interactive web application to visualize historical performance data of countrie
 - **Country Details**: Explore detailed statistics for each participating country
 - **Data Visualization**: Interactive charts powered by Chart.js
 - **Responsive Design**: Optimized for desktop and mobile devices
-- **Modern Stack**: Built with React 19, TypeScript, and Tailwind CSS
+- **Modern Architecture**: Built with React, TypeScript, Tailwind CSS, and RTK Query for robust state management
 
 ## 📋 Prerequisites
 
@@ -20,8 +20,8 @@ Interactive web application to visualize historical performance data of countrie
 Clone the repository:
 
 ```bash
-git clone https://github.com/openclassrooms/p2-dfsjs.git
-cd p2-dfsjs
+git clone https://github.com/MarouaneDmy/telesport.git
+cd telesport
 ```
 
 Install dependencies:
@@ -62,23 +62,25 @@ npm run lint
 
 ```
 p2-dfsjs/
-├── public/              # Static public assets
+├── public/                 # Static public assets
 ├── src/
-│   ├── App.tsx         # Main application component
-│   ├── main.tsx        # React entry point
-│   └── index.css       # Global styles
-├── index.html          # Main HTML page
-├── package.json        # Project dependencies
-├── tsconfig.json       # TypeScript configuration
-├── vite.config.ts      # Vite configuration
-├── tailwind.config.js  # Tailwind CSS configuration
-└── .eslintrc.cjs       # ESLint configuration
+│   ├── components/         # Reusable UI components (Header, Indicator, Loader, ErrorMessage, Footer)
+│   ├── hooks/              # Custom hooks (e.g., useData for mock data source)
+│   ├── models/             # Strict TypeScript interfaces (Country, Participation)
+│   ├── pages/              # Main application views (Home/, CountryDetails/, NotFound/)
+│   ├── router/             # Centralized routing configuration (AppRouter.tsx)
+│   ├── store/              # Redux store and RTK Query API configuration
+│   ├── utils/              # Pure business logic functions (olympicStats.ts)
+│   ├── App.tsx             # Root component + Chart.js global registration
+│   ├── main.tsx            # Application entry point + Redux Provider
+│   └── index.css           # Global styles and Tail
 ```
 
 ## 🔧 Tech Stack
 
 - **React 19** - UI library with latest features
 - **TypeScript** - Static type checking
+- **Redux Toolkit & RTK Query** - Global state management and powerful data fetching/caching
 - **Vite 5** - Fast build tool and dev server
 - **Tailwind CSS 4** - Utility-first CSS framework
 - **React Router 6** - Client-side routing
@@ -87,7 +89,7 @@ p2-dfsjs/
 
 ## 📊 Data
 
-The application currently uses mock data to simulate Olympic Games statistics. This architecture is designed to facilitate future integration with a REST API backend.
+The application currently uses mock data to simulate Olympic Games statistics. Thanks to the RTK Query abstraction layer, the architecture is fully prepared for a seamless transition to a real REST API backend without modifying any UI components.
 
 ## 🎨 Design
 
@@ -108,15 +110,8 @@ For more information on the technologies used:
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [React Router Documentation](https://reactrouter.com)
 - [Chart.js Documentation](https://www.chartjs.org/docs/latest/)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-This project is available for educational and personal use.
+- [RTK Query Documentation](https://redux-toolkit.js.org/)
 
 ---
 
-**Built with React 19 + TypeScript + Vite + Tailwind CSS**
+**Built with React 19 + TypeScript + Vite + Tailwind CSS + Redux Toolkit**
